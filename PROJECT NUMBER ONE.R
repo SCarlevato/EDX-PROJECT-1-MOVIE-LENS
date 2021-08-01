@@ -1,7 +1,7 @@
 ## Sylvain Carlevato
 ## MovieLens Project 
 ## HarvardX: PH125.9x - Capstone Project
-## https://github.com//edx-harvard-movielens-project
+## https://
 
 #################################################
 # MovieLens Rating Prediction Project Code 
