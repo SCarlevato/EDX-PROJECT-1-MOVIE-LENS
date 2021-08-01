@@ -47,3 +47,28 @@ validation <- temp %>%
 removed <- anti_join(temp, validation)
 edx <- rbind(edx, removed)
 rm(dl, ratings, movies, test_index, temp, movielens, removed)
+
+#### Methods and Analysis ####
+
+### Data Analysis ###
+
+# Internal Structure of dataframe edx 
+str(edx)
+
+# Head
+head(edx) %>%
+  print.data.frame()
+
+# Tail
+tail(edx)
+
+# Total unique movies and users
+summary(edx)
+
+# Number of unique movies and users in the edx dataset 
+edx %>%
+  summarize(n_users = n_distinct(userId), 
+            n_movies = n_distinct(movieId))
+
+
+
