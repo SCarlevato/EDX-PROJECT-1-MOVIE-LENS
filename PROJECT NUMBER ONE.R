@@ -122,3 +122,126 @@ edx %>%
   scale_x_discrete(limits = c(seq(0.5,5,0.5))) +
   theme_light()
 
+### Modelling Approach ###
+
+## Average movie rating model ##
+
+# Compute the dataset's mean rating
+mu <- mean(edx$rating)
+mu
+
+# Test results based on simple prediction
+naive_rmse <- RMSE(validation$rating, mu)
+naive_rmse
+
+# Check results
+# Save prediction in data frame
+rmse_results <- data_frame(method = "Average movie rating model", RMSE = naive_rmse)
+rmse_results %>% knitr::kable()
+
+## Movie effect model ##
+
+# Simple model taking into account the movie effect b_i
+# Subtract the rating minus the mean for each rating the movie received
+# Plot number of movies with the computed b_i
+movie_avgs <- edx %>%
+  group_by(movieId) %>%
+  summarize(b_i = mean(rating - mu))
+movie_avgs %>% qplot(b_i, geom ="histogram", bins = 10, data = ., color = I("black"),
+                     ylab = "Number of movies", main = "Number of movies with the computed b_i")
+
+# Test and save rmse results 
+predicted_ratings <- mu +  validation %>%
+  left_join(movie_avgs, by='movieId') %>%
+  pull(b_i)
+model_1_rmse <- RMSE(predicted_ratings, validation$rating)
+rmse_results <- bind_rows(rmse_results,
+                          data_frame(method="Movie effect model",  
+                                     RMSE = model_1_rmse ))
+# Check results
+rmse_results %>% knitr::kable()
+
+## Movie and user effect model ##
+
+# Plot penaly term user effect #
+user_avgs<- edx %>% 
+  left_join(movie_avgs, by='movieId') %>%
+  group_by(userId) %>%
+  filter(n() >= 100) %>%
+  summarize(b_u = mean(rating - mu - b_i))
+user_avgs%>% qplot(b_u, geom ="histogram", bins = 30, data = ., color = I("black"))
+
+
+user_avgs <- edx %>%
+left_join(movie_avgs, by='movieId') %>%
+group_by(userId) %>%
+summarize(b_u = mean(rating - mu - b_i))
+                                                             
+# Test and save rmse results 
+predicted_ratings <- validation%>%
+left_join(movie_avgs, by='movieId') %>%
+left_join(user_avgs, by='userId') %>%
+mutate(pred = mu + b_i + b_u) %>%
+pull(pred)
+                                                             
+model_2_rmse <- RMSE(predicted_ratings, validation$rating)
+rmse_results <- bind_rows(rmse_results,
+data_frame(method="Movie and user effect model",  
+RMSE = model_2_rmse))
+
+# Check result
+rmse_results %>% knitr::kable()
+                                                             
+## Regularized movie and user effect model ##
+
+# lambda is a tuning parameter
+# Use cross-validation to choose it.
+lambdas <- seq(0, 10, 0.25)
+
+# For each lambda,find b_i & b_u, followed by rating prediction & testing
+# note:the below code could take some time  
+rmses <- sapply(lambdas, function(l){
+                                                               
+mu <- mean(edx$rating)
+ 
+b_i <- edx %>% 
+group_by(movieId) %>%
+summarize(b_i = sum(rating - mu)/(n()+l))
+                                                               
+b_u <- edx %>% 
+left_join(b_i, by="movieId") %>%
+group_by(userId) %>%
+summarize(b_u = sum(rating - b_i - mu)/(n()+l))
+                                                               
+predicted_ratings <- 
+validation %>% 
+left_join(b_i, by = "movieId") %>%
+left_join(b_u, by = "userId") %>%
+mutate(pred = mu + b_i + b_u) %>%
+pull(pred)
+                                                               
+return(RMSE(predicted_ratings, validation$rating))
+})
+                                                                                                                       
+# Plot rmses vs lambdas to select the optimal lambda                                                             
+qplot(lambdas, rmses)  
+                                                                                                                     
+# The optimal lambda                                                             
+lambda <- lambdas[which.min(rmses)]
+lambda
+                                                            
+# Test and save results                                                             
+rmse_results <- bind_rows(rmse_results,
+data_frame(method="Regularized movie and user effect model",  
+RMSE = min(rmses)))
+
+# Check result
+rmse_results %>% knitr::kable()
+                                                             
+#### Results ####                                                            
+# RMSE results overview                                                          
+rmse_results %>% knitr::kable()
+
+#### Appendix ####
+print("Operating System:")
+version
