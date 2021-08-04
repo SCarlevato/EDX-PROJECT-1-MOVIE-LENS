@@ -1,7 +1,6 @@
 ## Sylvain Carlevato
 ## MovieLens Project 
 ## HarvardX: PH125.9x - Capstone Project
-## https://
 
 #################################################
 # MovieLens Rating Prediction Project Code 
@@ -73,7 +72,7 @@ edx %>%
 # Ratings distribution
 edx %>%
   ggplot(aes(Rating)) +
-  geom_histogram(binwidth = 0.25, color = "red") +
+  geom_histogram(binwidth = 0.25, color = "grey") +
   scale_x_discrete(limits = c(seq(0.5,5,0.5))) +
   scale_y_continuous(breaks = c(seq(0, 3000000, 500000))) +
   ggtitle("Rating Distribution")
@@ -82,7 +81,7 @@ edx %>%
 edx %>%
   count(movieId) %>%
   ggplot(aes(n)) +
-  geom_histogram(bins = 30, color = "red") +
+  geom_histogram(bins = 30, color = "grey") +
   scale_x_log10() +
   xlab("Number of Ratings") +
   ylab("Number of Movies") +
@@ -103,7 +102,7 @@ edx %>%
 edx %>%
   count(userId) %>%
   ggplot(aes(n)) +
-  geom_histogram(bins = 30, color = "red") +
+  geom_histogram(bins = 30, color = "grey") +
   scale_x_log10() +
   xlab("Number of Ratings") + 
   ylab("Number of Users") +
@@ -115,7 +114,7 @@ edx %>%
   filter(n() >= 100) %>%
   summarize(b_u = mean(rating)) %>%
   ggplot(aes(b_u)) +
-  geom_histogram(bins = 30, color = "red") +
+  geom_histogram(bins = 30, color = "grey") +
   xlab("Mean Rating") +
   ylab("Number of Users") +
   ggtitle("Mean Movie Ratings given by Users") +
@@ -170,7 +169,6 @@ user_avgs<- edx %>%
   filter(n() >= 100) %>%
   summarize(b_u = mean(rating - mu - b_i))
 user_avgs%>% qplot(b_u, geom ="histogram", bins = 30, data = ., color = I("black"))
-
 
 user_avgs <- edx %>%
 left_join(movie_avgs, by='movieId') %>%
