@@ -46,7 +46,6 @@ movies <- as.data.frame(movies) %>% mutate(movieId = as.numeric(movieId),
                                             title = as.character(title),
                                             genres = as.character(genres))
 
-
 movielens <- left_join(ratings, movies, by = "movieId")
 
 # Validation set will be 10% of MovieLens data
@@ -64,7 +63,7 @@ validation <- temp %>%
 removed <- anti_join(temp, validation)
 edx <- rbind(edx, removed)
 
-rm(dl, ratings, movies, test_index, temp, movielens, removed))
+rm(dl, ratings, movies, test_index, temp, movielens, removed)) 
 
 #### Methods and Analysis ####
 
@@ -72,6 +71,7 @@ rm(dl, ratings, movies, test_index, temp, movielens, removed))
 
 # Internal Structure of dataframe edx 
 str(edx)
+dim(edx)
 
 # Head
 head(edx) %>%
@@ -87,6 +87,15 @@ summary(edx)
 edx %>%
   summarize(n_users = n_distinct(userId), 
             n_movies = n_distinct(movieId))
+
+# Which movie has the greatest number of ratings?
+edx %>% group_by(movieId, title) %>%
+	summarize(count = n()) %>%
+	arrange(desc(count))
+
+# What are the five most given ratings in order from most to least?
+edx %>% group_by(rating) %>% summarize(count = n()) %>% top_n(5) %>%
+	arrange(desc(count))
 
 # Ratings distribution
 edx %>%
