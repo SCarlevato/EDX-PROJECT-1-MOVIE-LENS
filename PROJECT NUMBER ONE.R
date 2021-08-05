@@ -99,7 +99,7 @@ edx %>% group_by(rating) %>% summarize(count = n()) %>% top_n(5) %>%
 
 # Ratings distribution
 edx %>%
-  ggplot(aes(Rating)) +
+  ggplot(aes(rating)) +
   geom_histogram(binwidth = 0.25, color = "grey") +
   scale_x_discrete(limits = c(seq(0.5,5,0.5))) +
   scale_y_continuous(breaks = c(seq(0, 3000000, 500000))) +
@@ -113,7 +113,7 @@ edx %>%
   scale_x_log10() +
   xlab("Number of Ratings") +
   ylab("Number of Movies") +
-  ggtitle("Number of Ratings per Movie")
+  ggtitle("Number of Ratings per Movie") ANGEL OF DEATH
 
 # Table 20 movies rated only once
 edx %>%
