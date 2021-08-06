@@ -237,7 +237,7 @@ summarize(b_i = sum(rating - mu)/(n()+l))
 b_u <- edx %>% 
 left_join(b_i, by="movieId") %>%
 group_by(userId) %>%
-summarize(b_u = sum(rating - b_i - mu)/(n()+l)) ANGEL OF DEATH
+summarize(b_u = sum(rating - b_i - mu)/(n()+l)) 
                                                                
 predicted_ratings <- 
 validation %>% 
