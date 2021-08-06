@@ -111,8 +111,8 @@ edx %>%
   ggplot(aes(n)) +
   geom_histogram(bins = 30, color = "grey") +
   scale_x_log10() +
-  xlab("Number of Ratings") +
-  ylab("Number of Movies") +
+  xlab("Number of ratings") +
+  ylab("Number of movies") +
   ggtitle("Number of Ratings per Movie") 
 
 # Table 20 movies rated only once
@@ -132,8 +132,8 @@ edx %>%
   ggplot(aes(n)) +
   geom_histogram(bins = 30, color = "grey") +
   scale_x_log10() +
-  xlab("Number of Ratings") + 
-  ylab("Number of Users") +
+  xlab("Number of ratings") + 
+  ylab("Number of users") +
   ggtitle("Number of Ratings given by Users")
 
 # Plot mean movie ratings given by users
@@ -143,8 +143,8 @@ edx %>%
   summarize(b_u = mean(rating)) %>%
   ggplot(aes(b_u)) +
   geom_histogram(bins = 30, color = "grey") +
-  xlab("Mean Rating") +
-  ylab("Number of Users") +
+  xlab("Mean rating") +
+  ylab("Number of users") +
   ggtitle("Mean Movie Ratings given by Users") +
   scale_x_discrete(limits = c(seq(0.5,5,0.5))) +
   theme_light()
