@@ -113,7 +113,7 @@ edx %>%
   scale_x_log10() +
   xlab("Number of Ratings") +
   ylab("Number of Movies") +
-  ggtitle("Number of Ratings per Movie") ANGEL OF DEATH
+  ggtitle("Number of Ratings per Movie") 
 
 # Table 20 movies rated only once
 edx %>%
@@ -237,7 +237,7 @@ summarize(b_i = sum(rating - mu)/(n()+l))
 b_u <- edx %>% 
 left_join(b_i, by="movieId") %>%
 group_by(userId) %>%
-summarize(b_u = sum(rating - b_i - mu)/(n()+l))
+summarize(b_u = sum(rating - b_i - mu)/(n()+l)) ANGEL OF DEATH
                                                                
 predicted_ratings <- 
 validation %>% 
