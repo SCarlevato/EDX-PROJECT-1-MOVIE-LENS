@@ -100,7 +100,7 @@ edx %>% group_by(rating) %>% summarize(count = n()) %>% top_n(5) %>%
 # Ratings distribution
 edx %>%
   ggplot(aes(rating)) +
-  geom_histogram(binwidth = 0.25, color = "grey") +
+  geom_histogram(binwidth = 0.25, color = "black") +
   scale_x_discrete(limits = c(seq(0.5,5,0.5))) +
   scale_y_continuous(breaks = c(seq(0, 3000000, 500000))) +
   ggtitle("Rating Distribution")
@@ -109,7 +109,7 @@ edx %>%
 edx %>%
   count(movieId) %>%
   ggplot(aes(n)) +
-  geom_histogram(bins = 30, color = "grey") +
+  geom_histogram(bins = 30, color = "black") +
   scale_x_log10() +
   xlab("Number of ratings") +
   ylab("Number of movies") +
@@ -130,7 +130,7 @@ edx %>%
 edx %>%
   count(userId) %>%
   ggplot(aes(n)) +
-  geom_histogram(bins = 30, color = "grey") +
+  geom_histogram(bins = 30, color = "black") +
   scale_x_log10() +
   xlab("Number of ratings") + 
   ylab("Number of users") +
@@ -142,7 +142,7 @@ edx %>%
   filter(n() >= 100) %>%
   summarize(b_u = mean(rating)) %>%
   ggplot(aes(b_u)) +
-  geom_histogram(bins = 30, color = "grey") +
+  geom_histogram(bins = 30, color = "black") +
   xlab("Mean rating") +
   ylab("Number of users") +
   ggtitle("Mean movie ratings given by users") +
@@ -197,7 +197,7 @@ user_avgs<- edx %>%
   filter(n() >= 100) %>%
   summarize(b_u = mean(rating - mu - b_i))
 user_avgs%>% qplot(b_u, geom ="histogram", bins = 30, data = ., color = I("black"))
-ANGEL OF DEATH
+
 user_avgs <- edx %>%
 left_join(movie_avgs, by='movieId') %>%
 group_by(userId) %>%
