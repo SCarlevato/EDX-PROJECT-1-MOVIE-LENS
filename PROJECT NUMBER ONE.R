@@ -95,7 +95,7 @@ edx %>% group_by(movieId, title) %>%
 
 # What are the five most given ratings in order from most to least?
 edx %>% group_by(rating) %>% summarize(count = n()) %>% top_n(5) %>%
-	arrange(desc(count)) ANGEL OF DEATH
+	arrange(desc(count)) 
 
 # Ratings distribution
 edx %>%
@@ -113,7 +113,7 @@ edx %>%
   scale_x_log10() +
   xlab("Number of ratings") +
   ylab("Number of movies") +
-  ggtitle("Number of Ratings per Movie") 
+  ggtitle("Number of ratings per movie") 
 
 # Table 20 movies rated only once
 edx %>%
@@ -134,7 +134,7 @@ edx %>%
   scale_x_log10() +
   xlab("Number of ratings") + 
   ylab("Number of users") +
-  ggtitle("Number of Ratings given by Users")
+  ggtitle("Number of ratings given by users")
 
 # Plot mean movie ratings given by users
 edx %>%
@@ -145,7 +145,7 @@ edx %>%
   geom_histogram(bins = 30, color = "grey") +
   xlab("Mean rating") +
   ylab("Number of users") +
-  ggtitle("Mean Movie Ratings given by Users") +
+  ggtitle("Mean movie ratings given by users") +
   scale_x_discrete(limits = c(seq(0.5,5,0.5))) +
   theme_light()
 
@@ -197,7 +197,7 @@ user_avgs<- edx %>%
   filter(n() >= 100) %>%
   summarize(b_u = mean(rating - mu - b_i))
 user_avgs%>% qplot(b_u, geom ="histogram", bins = 30, data = ., color = I("black"))
-
+ANGEL OF DEATH
 user_avgs <- edx %>%
 left_join(movie_avgs, by='movieId') %>%
 group_by(userId) %>%
