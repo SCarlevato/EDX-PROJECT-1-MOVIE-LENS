@@ -95,7 +95,7 @@ edx %>% group_by(movieId, title) %>%
 
 # What are the five most given ratings in order from most to least?
 edx %>% group_by(rating) %>% summarize(count = n()) %>% top_n(5) %>%
-	arrange(desc(count))
+	arrange(desc(count)) ANGEL OF DEATH
 
 # Ratings distribution
 edx %>%
